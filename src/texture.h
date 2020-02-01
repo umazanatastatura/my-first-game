@@ -1,3 +1,6 @@
+#pragma once
+#include <string>
+
 //Texture wrapper class
 class LTexture
 {
