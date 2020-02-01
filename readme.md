@@ -1,6 +1,7 @@
 Description:
 -----------------
 This project is a small game made with sdl2 library.
+
 This project is linked against:
 ----------------------------------------
 Windows:
