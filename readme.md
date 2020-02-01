@@ -1,8 +1,6 @@
-Copyright Notice:
+Description:
 -----------------
-The files within this zip file are copyrighted by Lazy Foo' Productions (2004-2020)
-and may not be redistributed without written permission.
-
+This project is a small game made with sdl2 library.
 This project is linked against:
 ----------------------------------------
 Windows:
