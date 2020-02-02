@@ -343,7 +343,7 @@ int main(int argc, char* args[])
 				//Render level
 				for( int i = 0; i < TOTAL_TILES; ++i )
 				{
-					tileSet[i]->render(camera, &gTileTexture, &gTileClips[TOTAL_TILE_SPRITES], gRenderer);
+					tileSet[i]->render(camera, &gTileTexture, &gTileClips[tileSet[i]->getType()], gRenderer);
 				}
 
 				//Render dot
