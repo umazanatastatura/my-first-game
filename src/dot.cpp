@@ -1,38 +1,9 @@
-//The dot that will move around on the screen
-class Dot
-{
-    public:
-		//The dimensions of the dot
-		static const int DOT_WIDTH = 20;
-		static const int DOT_HEIGHT = 20;
+#include "globals.h"
+#include "dot.h"
+#include "tile.h"
+#include "texture.h"
 
-		//Maximum axis velocity of the dot
-		static const int DOT_VEL = 10;
-
-		//Initializes the variables
-		Dot();
-
-		//Takes key presses and adjusts the dot's velocity
-		void handleEvent( SDL_Event& e );
-
-		//Moves the dot and check collision against tiles
-		void move( Tile *tiles[] );
-
-		//Centers the camera over the dot
-		void setCamera( SDL_Rect& camera );
-
-		//Shows the dot on the screen
-		void render( SDL_Rect& camera, SDL_Renderer* gRenderer);
-
-    private:
-		//Collision box of the dot
-		SDL_Rect mBox;
-
-		//The velocity of the dot
-		int mVelX, mVelY;
-};
-
-Dot::Dot()
+Dot::Dot(LTexture* tex)
 {
     //Initialize the collision box
     mBox.x = 0;
@@ -43,6 +14,27 @@ Dot::Dot()
     //Initialize the velocity
     mVelX = 0;
     mVelY = 0;
+
+    mDotTexture = tex;
+}
+
+bool Dot::touchesWall( SDL_Rect box, Tile* tiles[] )
+{
+    //Go through the tiles
+    for( int i = 0; i < TOTAL_TILES; ++i )
+    {
+        //If the tile is a wall type tile
+        if( (tiles[i]->getType() >= TILE_CENTER) && (tiles[i]->getType() <= TILE_TOPLEFT))
+        {
+            //If the collision box touches the wall tile
+            if( Tile::checkCollision( box, tiles[i]->getBox()))
+            {
+                return true;
+            }
+        }
+    }
+    //If no wall tiles were touched
+    return false;
 }
 
 void Dot::handleEvent( SDL_Event& e )
@@ -124,5 +116,5 @@ void Dot::setCamera( SDL_Rect& camera )
 void Dot::render( SDL_Rect& camera, SDL_Renderer* gRenderer)
 {
     //Show the dot
-	gDotTexture.render(gRenderer, mBox.x - camera.x, mBox.y - camera.y);
+	mDotTexture->render(gRenderer, mBox.x - camera.x, mBox.y - camera.y);
 }

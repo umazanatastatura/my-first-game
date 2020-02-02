@@ -8,37 +8,10 @@ and may not be redistributed without written permission.*/
 #include <string>
 #include <fstream>
 
-#include "tile.cpp"
-#include "dot.cpp"
+#include "globals.h"
 #include "texture.h"
-
-//Screen dimension constants
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
-
-//The dimensions of the level
-const int LEVEL_WIDTH = 1280;
-const int LEVEL_HEIGHT = 960;
-
-//Tile constants
-const int TILE_WIDTH = 80;
-const int TILE_HEIGHT = 80;
-const int TOTAL_TILES = 192;
-const int TOTAL_TILE_SPRITES = 12;
-
-//The different tile sprites
-const int TILE_RED = 0;
-const int TILE_GREEN = 1;
-const int TILE_BLUE = 2;
-const int TILE_CENTER = 3;
-const int TILE_TOP = 4;
-const int TILE_TOPRIGHT = 5;
-const int TILE_RIGHT = 6;
-const int TILE_BOTTOMRIGHT = 7;
-const int TILE_BOTTOM = 8;
-const int TILE_BOTTOMLEFT = 9;
-const int TILE_LEFT = 10;
-const int TILE_TOPLEFT = 11;
+#include "tile.h"
+#include "dot.h"
 
 
 //Starts up SDL and creates window
@@ -49,9 +22,6 @@ bool loadMedia( Tile* tiles[] );
 
 //Frees media and shuts down SDL
 void close( Tile* tiles[] );
-
-//Checks collision box against set of tiles
-bool touchesWall( SDL_Rect box, Tile* tiles[] );
 
 //Sets tiles from tile map
 bool setTiles( Tile *tiles[] );
@@ -128,14 +98,14 @@ bool loadMedia( Tile* tiles[] )
 	bool success = true;
 
 	//Load dot texture
-	if( !gDotTexture.loadFromFile( "assets/dot.bmp", gRenderer) )
+	if( !gDotTexture.loadFromFile( "../assets/dot.bmp", gRenderer) )
 	{
 		printf( "Failed to load dot texture!\n" );
 		success = false;
 	}
 
 	//Load tile texture
-	if( !gTileTexture.loadFromFile( "assets/tiles.png", gRenderer) )
+	if( !gTileTexture.loadFromFile( "../assets/tiles.png", gRenderer) )
 	{
 		printf( "Failed to load tile set texture!\n" );
 		success = false;
@@ -187,7 +157,7 @@ bool setTiles( Tile* tiles[] )
     int x = 0, y = 0;
 
     //Open the map
-    std::ifstream map( "assets/lazy.map" );
+    std::ifstream map( "../assets/lazy.map" );
 
     //If the map couldn't be loaded
     if( map.fail() )
@@ -315,25 +285,6 @@ bool setTiles( Tile* tiles[] )
     return tilesLoaded;
 }
 
-bool touchesWall( SDL_Rect box, Tile* tiles[] )
-{
-    //Go through the tiles
-    for( int i = 0; i < TOTAL_TILES; ++i )
-    {
-        //If the tile is a wall type tile
-        if( (tiles[i]->getType() >= TILE_CENTER) && (tiles[i]->getType() <= TILE_TOPLEFT))
-        {
-            //If the collision box touches the wall tile
-            if( Tile::checkCollision( box, tiles[i]->getBox()))
-            {
-                return true;
-            }
-        }
-    }
-    //If no wall tiles were touched
-    return false;
-}
-
 int main(int argc, char* args[])
 {
 	//Start up SDL and create window
@@ -360,7 +311,7 @@ int main(int argc, char* args[])
 			SDL_Event e;
 
 			//The dot that will be moving around on the screen
-			Dot dot;
+			Dot dot(&gDotTexture);
 
 			//Level camera
 			SDL_Rect camera = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };

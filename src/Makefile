@@ -1,5 +1,5 @@
 #OBJS specifies which files to compile as part of the project
-OBJS = main.cpp tile.cpp
+OBJS = main.cpp tile.cpp dot.cpp texture.cpp
 
 #CC specifies which compiler we're using
 CC = g++
