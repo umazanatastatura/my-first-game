@@ -6,8 +6,8 @@
 Dot::Dot(LTexture* tex)
 {
     //Initialize the collision box
-    mBox.x = 0;
-    mBox.y = 0;
+    mBox.x = TILE_WIDTH/2-DOT_WIDTH/2;
+    mBox.y = TILE_HEIGHT/2-DOT_HEIGHT/2;
 	mBox.w = DOT_WIDTH;
 	mBox.h = DOT_HEIGHT;
 
